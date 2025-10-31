@@ -55,7 +55,7 @@
 
   <script>
     // Load the combined dataset
-    d3.csv('data/clean_data.csv').then(function(data) {
+    d3.csv('data/region_category_clean_data.csv').then(function(data) {
       console.log('Loaded dataset:', data.slice(0,5)); // preview first 5 rows in console
       window.luxuryData = data; // make globally accessible for other visualizations
 
@@ -179,7 +179,7 @@ function drawCategoryLine(data, brandFilter = "Hermes") {
 }
 
 // Call the function once your data is loaded
-d3.csv("data/clean_data.csv").then(data => {
+d3.csv("data/region_category_clean_data.csv").then(data => {
   drawCategoryLine(data, "Hermes"); // Change to 'Gucci' or 'Coach' if needed
 });
 
