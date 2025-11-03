@@ -30,6 +30,19 @@
     .card{border:1px solid #263067;border-radius:16px;padding:var(--pad);background:linear-gradient(180deg, rgba(21,27,64,0.6), rgba(21,27,64,0.2));}
     .viz{width:100%;height:380px}
     footer{color:var(--muted);padding:40px 20px;text-align:center}
+    #insights {
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+
+    .facet {
+      margin-top: 10px;
+      margin-bottom: 16px;
+    }
+    .viz:empty { display: none; }   /* kills the 380px when nothing is inside */
+
+
+
   </style>
 </head>
 <body>
@@ -43,7 +56,7 @@
 
     <section id="insights"><h2>Rising Insights</h2><div id="viz-price-hist" class="viz"></div></section>
 
-	<div id="viz-category-line" class="viz"></div>
+
 
 
     <section id="message"><h2>Main Message</h2></section>
@@ -53,137 +66,118 @@
 
   <footer>Process book & team credits © 2025</footer>
 
-  <script>
-    // Load the combined dataset
-    d3.csv('data/region_category_clean_data.csv').then(function(data) {
-      console.log('Loaded dataset:', data.slice(0,5)); // preview first 5 rows in console
-      window.luxuryData = data; // make globally accessible for other visualizations
+<script>
+  d3.csv("data/region_category_clean_data.csv").then(data => {
+    console.log("Loaded dataset:", data.slice(0, 5));
 
-      // Example fields detection
-      const columns = data.columns;
-      console.log('Columns:', columns);
-
-      // Future visualizations (line chart, histograms, etc.) can access window.luxuryData directly.
+    // clean types
+    data.forEach(d => {
+      d.year = +d.year;
+      d.millions_of_euros = +d.millions_of_euros;
     });
 
-	// === Visualization 3: Revenue by Category (non-interactive line chart) ===
-function drawCategoryLine(data, brandFilter = "Hermes") {
-  const filtered = data
-  	.filter(d => d.brand === brandFilter)
-  	.filter(d => d.category && d.category !== "NA");
+    // filter out NAs
+    data = data.filter(d => d.category && d.category !== "NA");
 
-  // Convert types
-  filtered.forEach(d => {
-    d.year = +d.year;
-    d.millions_of_euros = +d.millions_of_euros;
+    // === simple ggplot-style faceted line charts ===
+    const brands = ["Hermes", "Gucci", "Coach"];
+  const container = d3.select("#insights").selectAll(".facet")
+    .data(brands)
+    .join("div")
+    .attr("class", "facet")
+    .style("margin-bottom", "40px");
+
+  container.each(function(brand) {
+    const brandData = data.filter(d => d.brand === brand && d.category && d.category !== "NA");
+
+    // compute color scale only for this brand
+    const categories = Array.from(new Set(brandData.map(d => d.category)));
+    const color = d3.scaleOrdinal().domain(categories).range(d3.schemeSet2);
+
+    const width = 800;
+    const height = 350;
+    const margin = { top: 16, right: 180, bottom: 40, left: 70 };
+
+    const svg = d3.select(this)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const innerW = width - margin.left - margin.right;
+    const innerH = height - margin.top - margin.bottom;
+
+    const x = d3.scaleLinear()
+      .domain(d3.extent(brandData, d => d.year))
+      .range([0, innerW]);
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(brandData, d => d.millions_of_euros) * 1.05])
+      .nice()
+      .range([innerH, 0]);
+
+    // Axes
+    g.append("g")
+      .attr("transform", `translate(0,${innerH})`)
+      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
+    g.append("g").call(d3.axisLeft(y).ticks(6));
+
+    // Lines
+    const line = d3.line()
+      .x(d => x(d.year))
+      .y(d => y(d.millions_of_euros))
+      .curve(d3.curveLinear);
+
+    const grouped = d3.groups(brandData, d => d.category);
+    g.selectAll(".cat-line")
+      .data(grouped)
+      .join("path")
+        .attr("fill", "none")
+        .attr("stroke", d => color(d[0]))
+        .attr("stroke-width", 2.5)
+        .attr("d", d => line(d[1].sort((a,b)=>d3.ascending(a.year,b.year))));
+
+    // Title
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", 16)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#e8ebff")
+      .attr("font-size", "20px")
+      .attr("font-weight", "800")
+      .style("letter-spacing", "0.3px")
+      .text(`${brand} — Revenue by Category`);
+
+    // Legend
+    const legend = svg.append("g")
+      .attr("transform", `translate(${margin.left + innerW + 25},${margin.top})`);
+
+    legend.selectAll("rect")
+      .data(categories)
+      .join("rect")
+        .attr("x", 0)
+        .attr("y", (d, i) => i * 18)
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("fill", d => color(d));
+
+    legend.selectAll("text")
+      .data(categories)
+      .join("text")
+        .attr("x", 16)
+        .attr("y", (d, i) => i * 18 + 9)
+        .attr("fill", "#cfd6ff")
+        .style("font-size", "11px")
+        .text(d => d);
+
+
+
   });
 
-  // Group by category
-  const categories = Array.from(new Set(filtered.map(d => d.category)));
-  const color = d3.scaleOrdinal()
-    .domain(categories)
-    .range(d3.schemeSet2);
-
-  // SVG setup
-  const container = d3.select("#viz-category-line");
-  container.selectAll("*").remove();
-  const width = container.node().clientWidth || 800;
-  const height = 400;
-  const margin = {top: 30, right: 100, bottom: 40, left: 70};
-
-  const svg = container.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  const innerW = width - margin.left - margin.right;
-  const innerH = height - margin.top - margin.bottom;
-
-  // Scales
-  const x = d3.scaleLinear()
-    .domain(d3.extent(filtered, d => d.year))
-    .range([0, innerW]);
-
-  const y = d3.scaleLinear()
-    .domain([0, d3.max(filtered, d => d.millions_of_euros) * 1.1])
-    .nice()
-    .range([innerH, 0]);
-
-  // Axes
-  g.append("g")
-    .attr("transform", `translate(0,${innerH})`)
-    .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
-  g.append("g")
-    .call(d3.axisLeft(y).ticks(6));
-
-  // Lines
-  const line = d3.line()
-    .x(d => x(d.year))
-    .y(d => y(d.millions_of_euros))
-    .curve(d3.curveMonotoneX);
-
-  const grouped = d3.groups(filtered, d => d.category);
-  g.selectAll(".cat-line")
-    .data(grouped)
-    .join("path")
-      .attr("class", "cat-line")
-      .attr("fill", "none")
-      .attr("stroke-width", 3)
-      .attr("stroke", d => color(d[0]))
-      .attr("d", d => line(d[1].sort((a,b)=>d3.ascending(a.year,b.year))));
-
-  // Legend
-  const legend = svg.append("g")
-    .attr("transform", `translate(${width - margin.right + 20},${margin.top})`);
-  legend.selectAll("rect")
-    .data(categories)
-    .join("rect")
-      .attr("x", 0)
-      .attr("y", (d,i)=>i*20)
-      .attr("width", 10)
-      .attr("height", 10)
-      .attr("fill", d=>color(d));
-  legend.selectAll("text")
-    .data(categories)
-    .join("text")
-      .attr("x", 16)
-      .attr("y", (d,i)=>i*20 + 9)
-      .attr("fill", "#cfd6ff")
-      .text(d=>d);
-
-  // Titles
-  svg.append("text")
-    .attr("x", width/2)
-    .attr("y", 20)
-    .attr("text-anchor", "middle")
-    .attr("fill", "#e8ebff")
-    .attr("font-weight", "700")
-    .text(`${brandFilter} — Revenue by Category Over Time`);
-
-  svg.append("text")
-    .attr("x", width/2)
-    .attr("y", height - 5)
-    .attr("text-anchor", "middle")
-    .attr("fill", "#cfd6ff")
-    .text("Year");
-
-  svg.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("x", -height/2)
-    .attr("y", 15)
-    .attr("text-anchor", "middle")
-    .attr("fill", "#cfd6ff")
-    .text("Revenue (millions of euros)");
-}
-
-// Call the function once your data is loaded
-d3.csv("data/region_category_clean_data.csv").then(data => {
-  drawCategoryLine(data, "Hermes"); // Change to 'Gucci' or 'Coach' if needed
 });
+</script>
 
 
-  </script>
 </body>
 </html>
