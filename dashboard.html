@@ -87,12 +87,26 @@
     .attr("class", "facet")
     .style("margin-bottom", "40px");
 
+  
   container.each(function(brand) {
     const brandData = data.filter(d => d.brand === brand && d.category && d.category !== "NA");
 
     // compute color scale only for this brand
     const categories = Array.from(new Set(brandData.map(d => d.category)));
-    const color = d3.scaleOrdinal().domain(categories).range(d3.schemeSet2);
+    // assign a unique color palette to each brand
+    let palette;
+    if (brand === "Hermes") {
+      palette = d3.schemeSet2;              // soft harmonious palette
+    } else if (brand === "Gucci") {
+      palette = d3.schemeTableau10;         // bold vibrant palette
+    } else if (brand === "Coach") {
+      palette = d3.schemePastel1;           // light elegant palette
+    }
+
+    const color = d3.scaleOrdinal()
+      .domain(categories)
+      .range(palette);
+
 
     const width = 800;
     const height = 350;
@@ -109,9 +123,12 @@
     const innerW = width - margin.left - margin.right;
     const innerH = height - margin.top - margin.bottom;
 
-    const x = d3.scaleLinear()
-      .domain(d3.extent(brandData, d => d.year))
-      .range([0, innerW]);
+    const years = Array.from(new Set(brandData.map(d => +d.year))).sort(d3.ascending);
+
+    const x = d3.scalePoint()
+      .domain(years)
+      .range([0, innerW])
+      .padding(0.3);
     const y = d3.scaleLinear()
       .domain([0, d3.max(brandData, d => d.millions_of_euros) * 1.05])
       .nice()
@@ -120,7 +137,7 @@
     // Axes
     g.append("g")
       .attr("transform", `translate(0,${innerH})`)
-      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
+      .call(d3.axisBottom(x).tickValues(years));
     g.append("g").call(d3.axisLeft(y).ticks(6));
 
     // Lines
