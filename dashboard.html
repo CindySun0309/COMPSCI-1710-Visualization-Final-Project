@@ -1,292 +1,789 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Luxury Prototype V1 — Hermès, Gucci, Coach</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <style>
-    :root{
-      --maxw: 1100px; --pad: 28px; --bg:#0b1020; --ink:#e8ebff; --muted:#9aa3c1; --brand1:#7dd3fc; --brand2:#fda4af; --brand3:#a7f3d0; --accent:#ffd166;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    header.hero{position:relative;padding:84px 20px 40px;border-bottom:1px solid #1f2543;background:radial-gradient(1200px 600px at 50% -10%, #1a2150 0%, rgba(26,33,80,0) 60%);} 
-    .hero h1{max-width:var(--maxw);margin:0 auto;font-size:clamp(28px, 3.2vw, 44px);line-height:1.15;font-weight:800;letter-spacing:-0.01em}
-    .hero p.kicker{max-width:var(--maxw);margin:16px auto 0;color:var(--muted);font-size:clamp(14px,1.6vw,18px)}
-    nav.top{position:sticky;top:0;z-index:10;background:rgba(11,16,32,0.8);backdrop-filter: blur(6px);border-bottom:1px solid #1f2543;}
-    nav.top .wrap{display:flex;gap:18px;max-width:var(--maxw);margin:0 auto;padding:10px 20px;align-items:center}
-    nav.top a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:600;text-decoration:none}
-    nav.top a.active{color:var(--ink);background:#1a2150}
-    main{max-width:var(--maxw);margin:0 auto;padding:20px}
-    section{padding:48px 0;border-bottom:1px solid #1f2543}
-    section:last-of-type{border-bottom:none}
-    h2{font-size:clamp(22px,2.2vw,30px);margin:0 0 12px 0}
-    p{color:#cfd6ff;line-height:1.6}
-    .two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
-    .card{border:1px solid #263067;border-radius:16px;padding:var(--pad);background:linear-gradient(180deg, rgba(21,27,64,0.6), rgba(21,27,64,0.2));}
-    .viz{width:100%;height:380px}
-    footer{color:var(--muted);padding:40px 20px;text-align:center}
-    #insights {
-      padding-top: 24px;
-      padding-bottom: 16px;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luxury Prototype V1 — Hermès, Gucci, Coach</title>
 
-    .facet {
-      margin-top: 10px;
-      margin-bottom: 16px;
-    }
-    .viz:empty { display: none; }   /* kills the 380px when nothing is inside */
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+    <style>
+      :root {
+        --maxw: 1100px;
+        --pad: 28px;
+        --bg: #0b1020;
+        --ink: #e8ebff;
+        --muted: #9aa3c1;
+        --brand1: #7dd3fc;
+        --brand2: #fda4af;
+        --brand3: #a7f3d0;
+        --accent: #ffd166;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      header.hero {
+        position: relative;
+        padding: 84px 20px 40px;
+        border-bottom: 1px solid #1f2543;
+        background: radial-gradient(
+          1200px 600px at 50% -10%,
+          #1a2150 0%,
+          rgba(26, 33, 80, 0) 60%
+        );
+      }
+
+      .hero h1 {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.15;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+
+      .hero p.kicker {
+        max-width: var(--maxw);
+        margin: 16px auto 0;
+        color: var(--muted);
+        font-size: clamp(14px, 1.6vw, 18px);
+      }
+
+      nav.top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(11, 16, 32, 0.8);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid #1f2543;
+      }
+
+      nav.top .wrap {
+        display: flex;
+        gap: 18px;
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 10px 20px;
+        align-items: center;
+      }
+
+      nav.top a {
+        padding: 8px 12px;
+        border-radius: 10px;
+        color: var(--muted);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      nav.top a.active {
+        color: var(--ink);
+        background: #1a2150;
+      }
+
+      main {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      section {
+        padding: 48px 0;
+        border-bottom: 1px solid #1f2543;
+      }
+
+      section:last-of-type {
+        border-bottom: none;
+      }
+
+      h2 {
+        font-size: clamp(22px, 2.2vw, 30px);
+        margin: 0 0 12px 0;
+      }
+
+      p {
+        color: #cfd6ff;
+        line-height: 1.6;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 24px;
+      }
+
+      .card {
+        border: 1px solid #263067;
+        border-radius: 16px;
+        padding: var(--pad);
+        background: linear-gradient(
+          180deg,
+          rgba(21, 27, 64, 0.6),
+          rgba(21, 27, 64, 0.2)
+        );
+        overflow: hidden;
+      }
+
+      .card .two-col > .viz {
+        padding: 12px;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      .card .viz svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .viz {
+        width: 100%;
+        height: 380px;
+      }
+
+      .map-card {
+        height: 520px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .map-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .legend {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: #0b1226;
+        border: 1px solid #2b3560;
+        padding: 8px;
+        border-radius: 6px;
+        color: var(--ink);
+        font-size: 13px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        z-index: 10000;
+        max-width: 260px;
+        white-space: normal;
+      }
+
+      footer {
+        color: var(--muted);
+        padding: 40px 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="hero">
+      <h1>The Price of Prestige</h1>
+    </header>
+
+    <main>
+      <!-- ================== HOOK ================== -->
+      <section id="hook" style="padding:18px 0 60px;">
+        <h2 style="margin-bottom:8px">Hook</h2>
+        <div id="vis1" class="card viz" style="margin-top:6px"></div>
+
+        <p
+          id="vis1-annotation"
+          style="color:var(--muted);margin:60px auto 0;opacity:0;max-width:900px;line-height:1.6;font-size:clamp(16px,1.6vw,20px);text-align:center;"
+        >
+          Did you know that Hermès earned around $15 billion last year, while Gucci brought in nearly $7 billion, and Coach just over $6 billion? These brands all dominate the luxury market, yet their success looks completely different. Despite vast differences in scale and revenue, none is “better” than the other. Each brand fulfills a distinct role in the luxury ecosystem, showing that prestige can take many forms.
+        </p>
+
+        <div
+          id="hook-placeholder"
+          class="card"
+          style="margin-top:18px;display:flex;align-items:center;justify-content:center;height:220px;border:2px dashed rgba(255,255,255,0.04);"
+        >
+          <div
+            style="text-align:center;padding:12px;color:var(--muted);font-size:clamp(14px,1.4vw,18px);"
+          >
+            Timeline of each company's history goes here
+          </div>
+        </div>
+
+        <div id="viz-revenue-line" class="viz" style="margin-top:18px"></div>
+      </section>
+
+      <!-- ================== INSIGHTS ================== -->
+      <section id="insights">
+        <h2>Rising Insights</h2>
+
+        <div id="viz-price-hist" class="viz" style="height:160px;margin-top:6px"></div>
+
+        <p
+          id="insights-annotation"
+          style="color:var(--muted);margin:18px 0 8px;opacity:0;max-width:900px;line-height:1.6;font-size:clamp(16px,1.6vw,20px);text-align:center;"
+        >
+          Revenue tells only part of the story. To understand how each brand defines “luxury,” we can look at what kinds of products drive their success.
+        </p>
+
+        <div class="card" style="padding:24px;margin-top:6px;margin-bottom:96px;">
+          <div class="two-col" style="align-items:start;">
+            <div id="vis2" class="viz" style="height:360px;min-height:320px"></div>
+
+            <div
+              id="viz-category-holder"
+              class="viz"
+              style="height:420px;min-height:360px;display:flex;align-items:center;justify-content:center;background:#0f1724;color:var(--muted);"
+            >
+              <div
+                id="viz-category-placeholder"
+                style="text-align:center;padding:8px;color:var(--muted);"
+              >
+                Select a company by hovering over its revenue bar
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:18px 24px;margin-top:6px;margin-bottom:32px;">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"
+          >
+            <div style="font-weight:700;color:var(--ink)">Price Distributions</div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+              <button
+                id="dist-price_usd"
+                style="background:#1a2150;color:var(--ink);border:1px solid #2b3560;padding:8px 10px;border-radius:8px;cursor:pointer"
+              >
+                Price USD
+              </button>
+              <button
+                id="dist-seller_price"
+                style="background:transparent;color:var(--muted);border:1px solid #2b3560;padding:8px 10px;border-radius:8px;cursor:pointer"
+              >
+                Seller Price
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="viz-price-dists"
+            class="viz"
+            style="height:320px;min-height:280px;margin-top:12px"
+          ></div>
+        </div>
+
+        <p
+          id="beyond-annotation"
+          style="color:var(--muted);margin:18px 0 8px;max-width:900px;line-height:1.6;font-size:clamp(16px,1.6vw,20px);text-align:center;"
+        >
+          Beyond sales and pricing, luxury lives through attention — the conversations, searches, and desires that drive visibility.
+        </p>
+
+        <div class="card map-card" id="choropleth-card">
+          <div class="map-controls">
+            <label for="brand-select" style="color:var(--muted);font-weight:600">Brand</label>
+            <select id="brand-select">
+              <option value="Hermes">Hermès</option>
+              <option value="Gucci">Gucci</option>
+              <option value="Coach">Coach</option>
+            </select>
+            <div class="legend" id="map-legend" style="margin-left:auto"></div>
+          </div>
+
+          <div id="map-container" style="position:relative;flex:1">
+            <div id="map-svg" style="width:100%;height:100%"></div>
+          </div>
+        </div>
+      </section>
+
+      <div id="viz-category-line" class="viz"></div>
+
+      <!-- ================== MAIN MESSAGE ================== -->
+      <section id="message">
+        <h2>Main Message</h2>
+      </section>
+
+      <section id="radar-section">
+        <div
+          id="radar"
+          class="card viz"
+          style="height:460px;margin-top:12px;padding:18px;min-height:420px"
+        ></div>
+
+        <p
+          id="radar-annotation"
+          style="color:var(--muted);margin:18px 0 8px;opacity:0;max-width:900px;line-height:1.6;font-size:clamp(16px,1.6vw,20px);text-align:center;"
+        >
+          Luxury is not a single blueprint but a spectrum of identities and strategies. Hermès, Gucci, and Coach each represent a distinct expression of what “luxury” means , from Hermès’ quiet exclusivity and price stability to Gucci’s trend-driven creativity and global hype, to Coach’s accessible reinvention of everyday luxury. By comparing prices, markdown patterns, product variety, and search interest, we reveal how these brands thrive through differentiation rather than imitation. Our findings suggest that diversity, not uniformity, sustains luxury’s allure , each brand succeeds by defining luxury on its own terms.
+        </p>
+      </section>
+
+      <!-- ================== SOLUTION ================== -->
+      <section id="solution">
+        <h2>Solution</h2>
+      </section>
+
+      <!-- ================== ADDITIONAL VISUALIZATIONS ================== -->
+      <section id="additional-viz">
+        <h2>Additional Visualizations</h2>
+        <div class="two-col">
+          <div id="vis3" class="card viz"></div>
+          <div id="vis4" class="card viz"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>Process book & team credits © 2025</footer>
+
+    <script>
+      // === Load the combined dataset ===
+      d3.csv('data/region_category_clean_data.csv').then(function (data) {
+        console.log('Loaded dataset:', data.slice(0, 5)); // preview first 5 rows in console
+        window.luxuryData = data; // make globally accessible for other visualizations
+
+        // Example fields detection
+        const columns = data.columns;
+        console.log('Columns:', columns);
+      });
+
+      // === Visualization 3: Revenue by Category (non-interactive line chart) ===
+      function drawCategoryLine(data, brandFilter = 'Hermes') {
+        const filtered = data
+          .filter((d) => d.brand === brandFilter)
+          .filter((d) => d.category && d.category !== 'NA');
+
+        // Convert types
+        filtered.forEach((d) => {
+          d.year = +d.year;
+          d.millions_of_euros = +d.millions_of_euros;
+        });
+
+        // Group by category
+        const categories = Array.from(new Set(filtered.map((d) => d.category)));
+        const color = d3.scaleOrdinal().domain(categories).range(d3.schemeSet2);
+
+        // SVG setup: target the new holder
+        const container = d3.select('#viz-category-holder');
+        container.selectAll('*').remove();
+
+        const width = container.node().clientWidth || 800;
+        const height = container.node().clientHeight || 400;
+        const margin = { top: 42, right: 120, bottom: 56, left: 72 };
+
+        const svg = container
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height)
+          .attr('viewBox', `0 0 ${width} ${height}`);
+
+        const g = svg
+          .append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        const innerW = Math.max(100, width - margin.left - margin.right);
+        const innerH = Math.max(60, height - margin.top - margin.bottom);
+
+        // Scales
+        const x = d3.scaleLinear()
+          .domain(d3.extent(filtered, (d) => d.year))
+          .range([0, innerW]);
+
+        const y = d3.scaleLinear()
+          .domain([0, d3.max(filtered, (d) => d.millions_of_euros) * 1.1])
+          .nice()
+          .range([innerH, 0]);
+
+        // Axes
+        g.append('g')
+          .attr('transform', `translate(0,${innerH})`)
+          .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('d')));
+
+        g.append('g')
+          .call(d3.axisLeft(y).ticks(Math.min(8, Math.max(4, Math.floor(innerH / 50)))));
+
+        // Lines
+        const line = d3.line()
+          .x((d) => x(d.year))
+          .y((d) => y(d.millions_of_euros))
+          .curve(d3.curveMonotoneX);
+
+        const grouped = d3.groups(filtered, (d) => d.category);
+
+        g.selectAll('.cat-line')
+          .data(grouped)
+          .join('path')
+          .attr('class', 'cat-line')
+          .attr('fill', 'none')
+          .attr('stroke-width', 3)
+          .attr('stroke', (d) => color(d[0]))
+          .attr('d', (d) =>
+            line(d[1].sort((a, b) => d3.ascending(a.year, b.year)))
+          );
+
+        // Legend
+        const legend = svg
+          .append('g')
+          .attr('transform', `translate(${width - margin.right + 20},${margin.top})`);
+
+        legend
+          .selectAll('rect')
+          .data(categories)
+          .join('rect')
+          .attr('x', 0)
+          .attr('y', (d, i) => i * 20)
+          .attr('width', 10)
+          .attr('height', 10)
+          .attr('fill', (d) => color(d));
+
+        legend
+          .selectAll('text')
+          .data(categories)
+          .join('text')
+          .attr('x', 16)
+          .attr('y', (d, i) => i * 20 + 9)
+          .attr('fill', '#cfd6ff')
+          .text((d) => d);
+
+        // Titles
+        svg
+          .append('text')
+          .attr('x', width / 2)
+          .attr('y', margin.top / 2 + 6)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#e8ebff')
+          .attr('font-weight', '700')
+          .text(`${brandFilter} — Revenue by Category Over Time`);
+
+        svg
+          .append('text')
+          .attr('x', width / 2)
+          .attr('y', height - 12)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#cfd6ff')
+          .text('Year');
+
+        svg
+          .append('text')
+          .attr('transform', `translate(12, ${height / 2}) rotate(-90)`)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#cfd6ff')
+          .text('Revenue (millions of euros)');
+      }
+
+      // Helper to render chart on brand selection
+      window.showCategory = function (brand) {
+        const holder = d3.select('#viz-category-holder');
+        if (holder.empty()) return;
+
+        holder.selectAll('*').remove();
+        holder
+          .append('div')
+          .attr('id', 'viz-category-loading')
+          .style('color', 'var(--muted)')
+          .style('padding', '12px')
+          .text('Loading ' + brand + '...');
+
+        if (window.luxuryData && Array.isArray(window.luxuryData)) {
+          drawCategoryLine(window.luxuryData, brand);
+        } else {
+          d3.csv('data/region_category_clean_data.csv')
+            .then((data) => {
+              window.luxuryData = data;
+              drawCategoryLine(data, brand);
+            })
+            .catch((err) => {
+              holder.selectAll('*').remove();
+              holder
+                .append('div')
+                .style('color', 'var(--muted)')
+                .style('padding', '12px')
+                .text('Failed to load category data');
+              console.warn(
+                'Could not load region_category_clean_data.csv for category chart',
+                err
+              );
+            });
+        }
+      };
+
+      // Listen for global selection events
+      window.addEventListener('brandSelected', function (e) {
+        const b = e && e.detail ? e.detail : e;
+        if (typeof b === 'string') window.showCategory(b);
+      });
+
+      // === Choropleth: Google Trends interest by region ===
+      (function () {
+        const csvPath = encodeURI('data/geoMap (2).csv');
+        const geoUrl =
+          'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
+        const container = d3.select('#map-svg');
+
+        // append tooltip to body to avoid clipping
+        let tooltip = d3.select('body').select('#map-tooltip');
+        if (tooltip.empty()) {
+          tooltip = d3
+            .select('body')
+            .append('div')
+            .attr('id', 'map-tooltip')
+            .attr('class', 'tooltip')
+            .style('display', 'none');
+        }
+
+        const brandSelect = d3.select('#brand-select');
+
+        function parsePct(s) {
+          if (s == null) return NaN;
+          const t = String(s).trim();
+          if (t === '') return NaN;
+          return +t.replace('%', '').replace(/[^0-9.\-]/g, '') || NaN;
+        }
+
+        Promise.all([d3.text(csvPath), d3.json(geoUrl)])
+          .then(([rawText, world]) => {
+            const lines = rawText.split(/\r?\n/).filter((l) => l.trim().length > 0);
+            if (lines[0] && lines[0].startsWith('Category:')) lines.shift();
+            const cleaned = lines.join('\n');
+            const rows = d3.csvParse(cleaned);
+
+            const cols = rows.columns;
+            const brandCols = { Hermes: null, Gucci: null, Coach: null };
+            cols.forEach((c) => {
+              const lc = c.toLowerCase();
+              if (lc.includes('herm')) brandCols.Hermes = c;
+              if (lc.includes('gucci')) brandCols.Gucci = c;
+              if (lc.includes('coach')) brandCols.Coach = c;
+            });
+
+            const valueByCountry = new Map();
+            rows.forEach((r) => {
+              const country = r[rows.columns[0]]?.trim();
+              if (!country) return;
+              const obj = {
+                Hermes: brandCols.Hermes ? parsePct(r[brandCols.Hermes]) : NaN,
+                Gucci: brandCols.Gucci ? parsePct(r[brandCols.Gucci]) : NaN,
+                Coach: brandCols.Coach ? parsePct(r[brandCols.Coach]) : NaN,
+              };
+              valueByCountry.set(country, obj);
+            });
+
+            function normalizeName(s) {
+              if (!s) return '';
+              let t = String(s)
+                .normalize('NFD')
+                .replace(/\p{Diacritic}/gu, '');
+              t = t.toLowerCase();
+              t = t.replace(/\(.+?\)/g, '');
+              t = t.replace(/[\u2018\u2019\u201c\u201d]/g, "'");
+              t = t.replace(/[.,\/#!$%\^&\*;:{}=\-_`~?@+<>\[\]\\]/g, '');
+              t = t.replace(/&/g, ' and ');
+              t = t.replace(/\s+/g, ' ').trim();
+              return t;
+            }
+
+            const aliasMap = {
+              usa: 'united states',
+              us: 'united states',
+              'united states of america': 'united states',
+              uk: 'united kingdom',
+              england: 'united kingdom',
+              'great britain': 'united kingdom',
+              russia: 'russian federation',
+              'venezuela bolivarian republic of': 'venezuela',
+              'ivory coast': "cote divoire",
+              'south korea': 'korea republic',
+              'north korea': 'korea democratic peoples republic',
+              'brunei darussalam': 'brunei',
+            };
+
+            const normalizedValueByCountry = new Map();
+            for (const [k, v] of valueByCountry.entries()) {
+              normalizedValueByCountry.set(normalizeName(k), v);
+            }
+
+            function findValueForFeature(featureName) {
+              if (!featureName) return undefined;
+              if (valueByCountry.has(featureName))
+                return valueByCountry.get(featureName);
+              const n = normalizeName(featureName);
+              if (normalizedValueByCountry.has(n))
+                return normalizedValueByCountry.get(n);
+              if (aliasMap[n] && normalizedValueByCountry.has(aliasMap[n]))
+                return normalizedValueByCountry.get(aliasMap[n]);
+              for (const [k, v] of normalizedValueByCountry.entries()) {
+                if (k && n && (k === n || k.includes(n) || n.includes(k))) return v;
+              }
+              return undefined;
+            }
+
+            const geo = world;
+            let svg, path, projection, g;
+
+            function drawMap(brand) {
+              container.selectAll('*').remove();
+              const node = container.node();
+              const w = node.clientWidth || 900;
+              const h = 460;
+              svg = container.append('svg').attr('width', w).attr('height', h);
+
+              const featuresFiltered = {
+                type: 'FeatureCollection',
+                features: geo.features.filter((f) => {
+                  const n =
+                    (f.properties && (f.properties.name || f.properties.NAME || f.properties.admin)) ||
+                    '';
+                  return String(n).toLowerCase() !== 'antarctica';
+                }),
+              };
+
+              projection = d3.geoNaturalEarth1().fitExtent([[20, 20], [w - 20, h - 20]], featuresFiltered);
+              path = d3.geoPath().projection(projection);
+              g = svg.append('g');
+
+              const zoom = d3.zoom().scaleExtent([1, 8]).on('zoom', (event) => {
+                g.attr('transform', event.transform);
+              });
+              svg.call(zoom);
+              svg.on('dblclick', () => {
+                svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity);
+              });
+
+              const values = featuresFiltered.features
+                .map((f) => {
+                  const name =
+                    f.properties && (f.properties.name || f.properties.NAME || f.properties.admin);
+                  const valobj = findValueForFeature(name);
+                  return valobj ? valobj[brand] : NaN;
+                })
+                .filter((v) => !isNaN(v));
+
+              const thresholds = d3.range(1, 10).map((i) => i * 10);
+              const rampColors = d3.range(10).map((i) => d3.interpolateYlOrRd(i / 9));
+              const noDataColor = '#6b7280';
+
+              const color = d3.scaleThreshold().domain(thresholds).range(rampColors);
+
+              g.selectAll('path')
+                .data(featuresFiltered.features)
+                .join('path')
+                .attr('d', path)
+                .attr('fill', (d) => {
+                  const name =
+                    d.properties && (d.properties.name || d.properties.NAME || d.properties.admin);
+                  const valobj = findValueForFeature(name);
+                  const v = valobj ? valobj[brand] : NaN;
+                  return isNaN(v) ? noDataColor : color(v);
+                })
+                .attr('stroke', '#0b1430')
+                .attr('stroke-width', 0.4)
+                .on('mousemove', function (event, d) {
+                  const name =
+                    d.properties && (d.properties.name || d.properties.NAME || d.properties.admin);
+                  const valobj = findValueForFeature(name);
+                  const v = valobj ? valobj[brand] : NaN;
+                  const vText = isNaN(v)
+                    ? `<span style="color:${noDataColor}">No data</span>`
+                    : v + '%';
+                  tooltip
+                    .style('display', 'block')
+                    .style('left', event.pageX + 12 + 'px')
+                    .style('top', event.pageY + 12 + 'px')
+                    .html(`
+                      <div style="font-weight:700;color:var(--ink)">${name}</div>
+                      <div style="margin-top:6px;color:var(--muted)">Interest: 
+                        <span style="color:var(--ink);font-weight:600">${vText}</span> 
+                        <span style="color:var(--muted)">(${brand})</span>
+                      </div>
+                    `);
+                })
+                .on('mouseleave', function () {
+                  tooltip.style('display', 'none');
+                });
+
+              const legend = d3.select('#map-legend');
+              legend.html('');
+              const labels = d3.range(10).map((i) => `${i * 10}-${i === 9 ? 100 : i * 10 + 9}%`);
+              labels.forEach((lab, i) => {
+                const sw = legend
+                  .append('span')
+                  .style('display', 'inline-flex')
+                  .style('align-items', 'center')
+                  .style('margin-left', '8px');
+                sw.append('i')
+                  .style('width', '28px')
+                  .style('height', '12px')
+                  .style('display', 'inline-block')
+                  .style('background', rampColors[i])
+                  .style('border', '1px solid rgba(255,255,255,0.04)')
+                  .style('margin-right', '6px');
+                sw.append('span')
+                  .text(lab)
+                  .style('color', 'var(--muted)')
+                  .style('margin-right', '6px');
+              });
+              const nod = legend
+                .append('span')
+                .style('display', 'inline-flex')
+                .style('align-items', 'center')
+                .style('margin-left', '8px');
+              nod.append('i')
+                .style('width', '28px')
+                .style('height', '12px')
+                .style('display', 'inline-block')
+                .style('background', noDataColor)
+                .style('border', '1px solid rgba(255,255,255,0.04)')
+                .style('margin-right', '6px');
+              nod.append('span').text('No data').style('color', 'var(--muted)');
+            }
+
+            function initial() {
+              drawMap(brandSelect.node().value);
+            }
+
+            brandSelect.on('change', () => drawMap(brandSelect.node().value));
+            window.addEventListener('resize', initial);
+            initial();
+          })
+          .catch((err) => {
+            console.warn('Could not load choropleth data or geojson:', err);
+            d3.select('#map-container')
+              .append('div')
+              .text('Map data failed to load')
+              .style('color', 'var(--muted)')
+              .style('padding', '12px');
+          });
+      })();
+    </script>
 
 
 
-  </style>
-</head>
-<body>
-  <header class="hero">
-    <h1>Luxury is not monolithic. Hermès, Gucci, and Coach represent distinct models of prestige that differ in pricing, consumer engagement, and global reach.</h1>
-    <p class="kicker">Scroll to explore Hook → Rising Insights → Main Message → Solution</p>
-  </header>
-
-  <main>
-    <section id="hook"><h2>Hook</h2><div id="viz-revenue-line" class="viz"></div></section>
-
-    <section id="insights"><h2>Rising Insights</h2><div id="viz-price-hist" class="viz"></div></section>
-
-
-
-
-    <section id="message"><h2>Main Message</h2></section>
-
-    <section id="solution"><h2>Solution</h2></section>
-  </main>
-
-  <footer>Process book & team credits © 2025</footer>
-
-<script>
-  d3.csv("data/region_category_clean_data.csv").then(data => {
-    console.log("Loaded dataset:", data.slice(0, 5));
-
-    // clean types
-    data.forEach(d => {
-      d.year = +d.year;
-      d.millions_of_euros = +d.millions_of_euros;
-    });
-
-    // filter out NAs
-    data = data.filter(d => d.category && d.category !== "NA");
-
-    // === simple ggplot-style faceted line charts ===
-    const brands = ["Hermes", "Gucci", "Coach"];
-  const container = d3.select("#insights").selectAll(".facet")
-    .data(brands)
-    .join("div")
-    .attr("class", "facet")
-    .style("margin-bottom", "40px");
-
-  
-  container.each(function(brand) {
-  const brandData = data.filter(d => d.brand === brand && d.category && d.category !== "NA");
-
-  // color palette by brand
-  const categories = Array.from(new Set(brandData.map(d => d.category)));
-  let palette;
-  if (brand === "Hermes") palette = d3.schemeSet2;
-  else if (brand === "Gucci") palette = d3.schemeTableau10;
-  else palette = d3.schemePastel1;
-
-  const color = d3.scaleOrdinal().domain(categories).range(palette);
-
-  // wrapper with two columns (line + bar)
-  const wrapper = d3.select(this)
-    .append("div")
-    .style("display", "flex")
-    .style("align-items", "flex-start")
-    .style("gap", "30px");
-
-  // === Line Chart ===
-  const width = 800, height = 350;
-  const margin = { top: 16, right: 180, bottom: 40, left: 70 };
-
-  const svg = wrapper.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  const innerW = width - margin.left - margin.right;
-  const innerH = height - margin.top - margin.bottom;
-
-  const years = Array.from(new Set(brandData.map(d => +d.year))).sort(d3.ascending);
-  const x = d3.scalePoint().domain(years).range([0, innerW]).padding(0.3);
-  const y = d3.scaleLinear()
-    .domain([0, d3.max(brandData, d => d.millions_of_euros) * 1.05])
-    .nice()
-    .range([innerH, 0]);
-
-  g.append("g")
-    .attr("transform", `translate(0,${innerH})`)
-    .call(d3.axisBottom(x).tickValues(years));
-  g.append("g").call(d3.axisLeft(y).ticks(6));
-
-  const line = d3.line()
-    .x(d => x(d.year))
-    .y(d => y(d.millions_of_euros))
-    .curve(d3.curveLinear);
-
-  const grouped = d3.groups(brandData, d => d.category);
-  g.selectAll(".cat-line")
-    .data(grouped)
-    .join("path")
-    .attr("fill", "none")
-    .attr("stroke", d => color(d[0]))
-    .attr("stroke-width", 2.5)
-    .attr("d", d => line(d[1].sort((a,b)=>d3.ascending(a.year,b.year))));
-
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", 16)
-    .attr("text-anchor", "middle")
-    .attr("fill", "#e8ebff")
-    .attr("font-size", "20px")
-    .attr("font-weight", "800")
-    .text(`${brand} — Revenue by Category`);
-
-  // legend
-  const legend = svg.append("g")
-    .attr("transform", `translate(${margin.left + innerW + 25},${margin.top})`);
-  legend.selectAll("rect")
-    .data(categories)
-    .join("rect")
-      .attr("x", 0)
-      .attr("y", (d, i) => i * 18)
-      .attr("width", 10)
-      .attr("height", 10)
-      .attr("fill", d => color(d));
-  legend.selectAll("text")
-    .data(categories)
-    .join("text")
-      .attr("x", 16)
-      .attr("y", (d, i) => i * 18 + 9)
-      .attr("fill", "#cfd6ff")
-      .style("font-size", "11px")
-      .text(d => d);
-
-  // === Barplot area ===
-  const barDiv = wrapper.append("div")
-    .attr("class", "barplot")
-    .style("width", "420px")
-    .style("height", "350px");
-
-  // === Click interaction ===
-  svg.on("click", (event) => {
-    const [mx] = d3.pointer(event);
-    const closestYear = years.reduce((a, b) =>
-      Math.abs(x(a) - mx) < Math.abs(x(b) - mx) ? a : b
-    );
-
-    g.selectAll(".year-line").remove();
-    g.append("line")
-      .attr("class", "year-line")
-      .attr("x1", x(closestYear))
-      .attr("x2", x(closestYear))
-      .attr("y1", 0)
-      .attr("y2", innerH)
-      .attr("stroke", "#ffd166")
-      .attr("stroke-width", 2)
-      .attr("stroke-dasharray", "4 2");
-
-    drawBarplot(brand, closestYear, barDiv, color);
-  });
-
-  // start with most recent year
-  drawBarplot(brand, d3.max(years), barDiv, color);
-
-  function drawBarplot(brand, year, container, color) {
-  container.selectAll("*").remove();
-
-  const filtered = data.filter(d => d.brand === brand && d.year === year && d.category && d.category !== "NA");
-  if (!filtered.length) return;
-
-  const width = 420, height = 350;
-  const margin = { top: 30, right: 40, bottom: 30, left: 130 };
-
-  const svg = container.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  const innerW = width - margin.left - margin.right;
-  const innerH = height - margin.top - margin.bottom;
-
-  const x = d3.scaleLinear()
-    .domain([0, d3.max(filtered, d => d.millions_of_euros) * 1.1])
-    .range([0, innerW]);
-
-  const y = d3.scaleBand()
-    .domain(filtered.map(d => d.category))
-    .range([0, innerH])
-    .padding(0.25);
-
-  // Bars
-  g.selectAll(".bar")
-    .data(filtered, d => d.category)
-    .join(
-      enter => enter.append("rect")
-        .attr("class", "bar")
-        .attr("y", d => y(d.category))
-        .attr("height", y.bandwidth())
-        .attr("x", 0)
-        .attr("width", 0)
-        .attr("fill", d => color(d.category))
-        .call(enter => enter.transition().duration(600)
-          .attr("width", d => x(d.millions_of_euros))),
-      update => update.transition().duration(600)
-        .attr("width", d => x(d.millions_of_euros))
-    );
-
-  // Labels
-  g.selectAll(".label")
-    .data(filtered, d => d.category)
-    .join("text")
-      .attr("x", d => x(d.millions_of_euros) + 5)
-      .attr("y", d => y(d.category) + y.bandwidth() / 1.6)
-      .attr("fill", "#e8ebff")
-      .attr("font-size", "11px")
-      .text(d => d3.format(".1f")(d.millions_of_euros));
-
-  // Axes
-  g.append("g").call(d3.axisLeft(y).tickSize(0)).selectAll("text").attr("fill", "#cfd6ff");
-  g.append("g")
-    .attr("transform", `translate(0,${innerH})`)
-    .call(d3.axisBottom(x).ticks(4))
-    .selectAll("text")
-    .attr("fill", "#cfd6ff");
-
-  // Title
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", 18)
-    .attr("text-anchor", "middle")
-    .attr("fill", "#e8ebff")
-    .attr("font-size", "14px")
-    .attr("font-weight", "700")
-    .text(`${brand} — ${year} Category Breakdown`);
-}
-
-
-});
-
-
-});
-</script>
-
-
-</body>
+    <script src="js/vis1.js"></script>
+    <script src="js/vis2.js"></script>
+    <script src="js/vis4.js"></script>
+    <script src="js/vis5.js"></script>
+    <script src="js/vis6.js"></script>
+  </body>
 </html>

@@ -9,6 +9,8 @@ library(dplyr)
 library(readr)
 data <- read_csv("data/joint_regional_categorical - Sheet1.csv")
 
+
+# change to euros
 exchange_rates <- c(
   "2025" = 0.8642,
   "2024" = 0.9610,
@@ -27,6 +29,19 @@ clean_data <- data %>%
     )
   )
 
-write.csv(clean_data, "data/region_category_clean_data.csv", row.names = FALSE)
+
+
+# change to dollars
+
+clean_data2 <- clean_data %>%
+  mutate(
+    millions_of_dollars = ifelse(
+      unit == "millions of dollars",
+      revenue,                                  # keep unchanged
+      revenue / exchange_rates[as.character(year)]  # convert euros → dollars
+    )
+  )
+
+write.csv(clean_data2, "data/region_category_clean_data.csv", row.names = FALSE)
 ```
 
