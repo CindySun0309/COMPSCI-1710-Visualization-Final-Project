@@ -1,5 +1,191 @@
 <!doctype html>
 <html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luxury Prototype V1 — Hermès, Gucci, Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    :root{
+      --maxw: 1100px; --pad: 28px; --bg:#0b1020; --ink:#e8ebff; --muted:#9aa3c1; --brand1:#7dd3fc; --brand2:#fda4af; --brand3:#a7f3d0; --accent:#ffd166;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    header.hero{position:relative;padding:84px 20px 40px;border-bottom:1px solid #1f2543;background:radial-gradient(1200px 600px at 50% -10%, #1a2150 0%, rgba(26,33,80,0) 60%);} 
+    .hero h1{max-width:var(--maxw);margin:0 auto;font-size:clamp(28px, 3.2vw, 44px);line-height:1.15;font-weight:800;letter-spacing:-0.01em}
+    .hero p.kicker{max-width:var(--maxw);margin:16px auto 0;color:var(--muted);font-size:clamp(14px,1.6vw,18px)}
+    nav.top{position:sticky;top:0;z-index:10;background:rgba(11,16,32,0.8);backdrop-filter: blur(6px);border-bottom:1px solid #1f2543;}
+    nav.top .wrap{display:flex;gap:18px;max-width:var(--maxw);margin:0 auto;padding:10px 20px;align-items:center}
+    nav.top a{padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:600;text-decoration:none}
+    nav.top a.active{color:var(--ink);background:#1a2150}
+    main{max-width:var(--maxw);margin:0 auto;padding:20px}
+    section{padding:48px 0;border-bottom:1px solid #1f2543}
+    section:last-of-type{border-bottom:none}
+    h2{font-size:clamp(22px,2.2vw,30px);margin:0 0 12px 0}
+    p{color:#cfd6ff;line-height:1.6}
+    .two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+    .card{border:1px solid #263067;border-radius:16px;padding:var(--pad);background:linear-gradient(180deg, rgba(21,27,64,0.6), rgba(21,27,64,0.2));}
+    .viz{width:100%;height:380px}
+    footer{color:var(--muted);padding:40px 20px;text-align:center}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Derin was here lol - Luxury is not monolithic. Hermès, Gucci, and Coach represent distinct models of prestige that differ in pricing, consumer engagement, and global reach.</h1>
+    <p class="kicker">Scroll to explore Hook → Rising Insights → Main Message → Solution</p>
+  </header>
+
+  <main>
+    <section id="hook"><h2>Hook</h2><div id="viz-revenue-line" class="viz"></div></section>
+
+    <section id="insights"><h2>Rising Insights</h2><div id="viz-price-hist" class="viz"></div></section>
+
+	<div id="viz-category-line" class="viz"></div>
+
+
+    <section id="message"><h2>Main Message</h2></section>
+
+    <section id="solution"><h2>Solution</h2></section>
+  </main>
+
+  <footer>Process book & team credits © 2025</footer>
+
+  <script>
+    // Load the combined dataset
+    d3.csv('data/region_category_clean_data.csv').then(function(data) {
+      console.log('Loaded dataset:', data.slice(0,5)); // preview first 5 rows in console
+      window.luxuryData = data; // make globally accessible for other visualizations
+
+      // Example fields detection
+      const columns = data.columns;
+      console.log('Columns:', columns);
+
+      // Future visualizations (line chart, histograms, etc.) can access window.luxuryData directly.
+    });
+
+	// === Visualization 3: Revenue by Category (non-interactive line chart) ===
+function drawCategoryLine(data, brandFilter = "Hermes") {
+  const filtered = data
+  	.filter(d => d.brand === brandFilter)
+  	.filter(d => d.category && d.category !== "NA");
+
+  // Convert types
+  filtered.forEach(d => {
+    d.year = +d.year;
+    d.millions_of_euros = +d.millions_of_euros;
+  });
+
+  // Group by category
+  const categories = Array.from(new Set(filtered.map(d => d.category)));
+  const color = d3.scaleOrdinal()
+    .domain(categories)
+    .range(d3.schemeSet2);
+
+  // SVG setup
+  const container = d3.select("#viz-category-line");
+  container.selectAll("*").remove();
+  const width = container.node().clientWidth || 800;
+  const height = 400;
+  const margin = {top: 30, right: 100, bottom: 40, left: 70};
+
+  const svg = container.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+
+  // Scales
+  const x = d3.scaleLinear()
+    .domain(d3.extent(filtered, d => d.year))
+    .range([0, innerW]);
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(filtered, d => d.millions_of_euros) * 1.1])
+    .nice()
+    .range([innerH, 0]);
+
+  // Axes
+  g.append("g")
+    .attr("transform", `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
+  g.append("g")
+    .call(d3.axisLeft(y).ticks(6));
+
+  // Lines
+  const line = d3.line()
+    .x(d => x(d.year))
+    .y(d => y(d.millions_of_euros))
+    .curve(d3.curveMonotoneX);
+
+  const grouped = d3.groups(filtered, d => d.category);
+  g.selectAll(".cat-line")
+    .data(grouped)
+    .join("path")
+      .attr("class", "cat-line")
+      .attr("fill", "none")
+      .attr("stroke-width", 3)
+      .attr("stroke", d => color(d[0]))
+      .attr("d", d => line(d[1].sort((a,b)=>d3.ascending(a.year,b.year))));
+
+  // Legend
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - margin.right + 20},${margin.top})`);
+  legend.selectAll("rect")
+    .data(categories)
+    .join("rect")
+      .attr("x", 0)
+      .attr("y", (d,i)=>i*20)
+      .attr("width", 10)
+      .attr("height", 10)
+      .attr("fill", d=>color(d));
+  legend.selectAll("text")
+    .data(categories)
+    .join("text")
+      .attr("x", 16)
+      .attr("y", (d,i)=>i*20 + 9)
+      .attr("fill", "#cfd6ff")
+      .text(d=>d);
+
+  // Titles
+  svg.append("text")
+    .attr("x", width/2)
+    .attr("y", 20)
+    .attr("text-anchor", "middle")
+    .attr("fill", "#e8ebff")
+    .attr("font-weight", "700")
+    .text(`${brandFilter} — Revenue by Category Over Time`);
+
+  svg.append("text")
+    .attr("x", width/2)
+    .attr("y", height - 5)
+    .attr("text-anchor", "middle")
+    .attr("fill", "#cfd6ff")
+    .text("Year");
+
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height/2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .attr("fill", "#cfd6ff")
+    .text("Revenue (millions of euros)");
+}
+
+// Call the function once your data is loaded
+d3.csv("data/region_category_clean_data.csv").then(data => {
+  drawCategoryLine(data, "Hermes"); // Change to 'Gucci' or 'Coach' if needed
+});
+
+
+  </script>
+</body>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
