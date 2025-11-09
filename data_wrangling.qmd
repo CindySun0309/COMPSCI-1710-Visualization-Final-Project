@@ -1,0 +1,47 @@
+---
+title: "data wrangling"
+author: "cindy"
+format: html
+---
+
+```{r}
+library(dplyr)
+library(readr)
+data <- read_csv("data/joint_regional_categorical - Sheet1.csv")
+
+
+# change to euros
+exchange_rates <- c(
+  "2025" = 0.8642,
+  "2024" = 0.9610,
+  "2023" = 0.9061,
+  "2022" = 0.9343,
+  "2021" = 0.8833,
+  "2020" = 0.8131
+)
+
+clean_data <- data %>%
+  mutate(
+    millions_of_euros = ifelse(
+      unit == "millions of euros",
+      revenue,                                  # keep unchanged
+      revenue * exchange_rates[as.character(year)]  # convert dollars → euros
+    )
+  )
+
+
+
+# change to dollars
+
+clean_data2 <- clean_data %>%
+  mutate(
+    millions_of_dollars = ifelse(
+      unit == "millions of dollars",
+      revenue,                                  # keep unchanged
+      revenue / exchange_rates[as.character(year)]  # convert euros → dollars
+    )
+  )
+
+write.csv(clean_data2, "data/region_category_clean_data.csv", row.names = FALSE)
+```
+

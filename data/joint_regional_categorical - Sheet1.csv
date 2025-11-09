@@ -1,0 +1,191 @@
+brand,year,region,category,revenue,unit
+Coach,2024,,Women’s Handbags,"2,495.7",millions of dollars
+Coach,2024,,Women’s Accessories,"1,079.6",millions of dollars
+Coach,2024,,Men’s,983.9,millions of dollars
+Coach,2024,,Other Products,536.1,millions of dollars
+Coach,2024,,Total Coach,"5,095.3",millions of dollars
+Coach,2023,,Women’s Handbags,"2,450.7",millions of dollars
+Coach,2023,,Women’s Accessories,"1,024.8",millions of dollars
+Coach,2023,,Men’s,947.1,millions of dollars
+Coach,2023,,Other Products,537.8,millions of dollars
+Coach,2023,,Total Coach,"4,960.4",millions of dollars
+Coach,2022,,Women’s Handbags,"2,574.8",millions of dollars
+Coach,2022,,Women’s Accessories,942.5,millions of dollars
+Coach,2022,,Men’s,904.8,millions of dollars
+Coach,2022,,Other Products,499.2,millions of dollars
+Coach,2022,,Total Coach,"4,921.3",millions of dollars
+Coach,2021,,Women’s Handbags,"2,302.3",millions of dollars
+Coach,2021,,Women’s Accessories,776.7,millions of dollars
+Coach,2021,,Men’s,769.3,millions of dollars
+Coach,2021,,Other Products,404.8,millions of dollars
+Coach,2021,,Total Coach,"4,253.1",millions of dollars
+Coach,2020,,Women’s Handbags,"1,852.0",millions of dollars
+Coach,2020,,Women’s Accessories,645.4,millions of dollars
+Coach,2020,,Men’s,688.0,millions of dollars
+Coach,2020,,Other Products,340.3,millions of dollars
+Coach,2020,,Total Coach,"3,525.7",millions of dollars
+Coach,2025,North America,,"3,429.6",millions of dollars
+Coach,2025,Greater China,,970.2,millions of dollars
+Coach,2025,Other Asia,,769.6,millions of dollars
+Coach,2025,Other,,429.1,millions of dollars
+Coach,2025,Total,,"5,598.5",millions of dollars
+Coach,2024,North America,,"3,078.7",millions of dollars
+Coach,2024,Greater China,,902.1,millions of dollars
+Coach,2024,Other Asia,,771.4,millions of dollars
+Coach,2024,Other,,343.1,millions of dollars
+Coach,2024,Total,,"5,095.3",millions of dollars
+Coach,2023,North America,,"3,037.5",millions of dollars
+Coach,2023,Greater China,,896.7,millions of dollars
+Coach,2023,Other Asia,,752.9,millions of dollars
+Coach,2023,Other,,273.3,millions of dollars
+Coach,2023,Total,,"4,960.4",millions of dollars
+Coach,2022,North America,,"3,102.8",millions of dollars
+Coach,2022,Greater China,,892.2,millions of dollars
+Coach,2022,Other Asia,,691.3,millions of dollars
+Coach,2022,Other,,235.0,millions of dollars
+Coach,2022,Total,,"4,921.3",millions of dollars
+Coach,2021,North America,,"2,466.3",millions of dollars
+Coach,2021,Greater China,,930.6,millions of dollars
+Coach,2021,Other Asia,,666.3,millions of dollars
+Coach,2021,Other,,189.9,millions of dollars
+Coach,2021,Total,,"4,253.1",millions of dollars
+Coach,2020,North America,,"2,015.5",millions of dollars
+Coach,2020,Greater China,,600.8,millions of dollars
+Coach,2020,Other Asia,,691.0,millions of dollars
+Coach,2020,Other,,218.4,millions of dollars
+Coach,2020,Total,,"3,525.7",millions of dollars
+Gucci,2024,,Other,688.5,millions of euros
+Gucci,2024,,Watches and jewelry,306.0,millions of euros
+Gucci,2024,,Ready-to-wear,"1,300.5",millions of euros
+Gucci,2024,,Leather goods,"3,825.0",millions of euros
+Gucci,2024,,Shoes,"1,530.0",millions of euros
+Gucci,2023,,Other,691.1,millions of euros
+Gucci,2023,,Watches and jewelry,493.7,millions of euros
+Gucci,2023,,Ready-to-wear,"1,481.0",millions of euros
+Gucci,2023,,Leather goods,"5,232.7",millions of euros
+Gucci,2023,,Shoes,"1,974.6",millions of euros
+Gucci,2022,,Other,734.1,millions of euros
+Gucci,2022,,Watches and jewelry,524.4,millions of euros
+Gucci,2022,,Ready-to-wear,"1,573.1",millions of euros
+Gucci,2022,,Leather goods,"5,453.2",millions of euros
+Gucci,2022,,Shoes,"2,202.3",millions of euros
+Gucci,2021,,Other,681.2,millions of euros
+Gucci,2021,,Watches and jewelry,583.9,millions of euros
+Gucci,2021,,Ready-to-wear,"1,459.6",millions of euros
+Gucci,2021,,Leather goods,"5,157.4",millions of euros
+Gucci,2021,,Shoes,"1,848.9",millions of euros
+Gucci,2024,Rest of the world,,612.0,millions of euros
+Gucci,2024,Japan,,612.0,millions of euros
+Gucci,2024,North America,,"1,912.5",millions of euros
+Gucci,2024,Asia-Pacific (excluding Japan),,"2,524.5",millions of euros
+Gucci,2024,Western Europe,,"1,989.0",millions of euros
+Gucci,2023,Rest of the world,,691.1,millions of euros
+Gucci,2023,Japan,,691.1,millions of euros
+Gucci,2023,North America,,"2,270.8",millions of euros
+Gucci,2023,Asia-Pacific (excluding Japan),,"3,850.5",millions of euros
+Gucci,2023,Western Europe,,"2,369.5",millions of euros
+Gucci,2022,Rest of the world,,734.1,millions of euros
+Gucci,2022,Japan,,629.2,millions of euros
+Gucci,2022,North America,,"3,041.2",millions of euros
+Gucci,2022,Asia-Pacific (excluding Japan),,"3,775.3",millions of euros
+Gucci,2022,Western Europe,,"2,307.1",millions of euros
+Gucci,2021,Rest of the world,,583.9,millions of euros
+Gucci,2021,Japan,,583.9,millions of euros
+Gucci,2021,North America,,"2,627.3",millions of euros
+Gucci,2021,Asia-Pacific (excluding Japan),,"4,281.6",millions of euros
+Gucci,2021,Western Europe,,"1,654.3",millions of euros
+Hermes,2024,,Leather Goods and Saddlery,"6,457.0",millions of euros
+Hermes,2024,,Ready-to-wear and Accessories,"4,405.0",millions of euros
+Hermes,2024,,Silk and Textiles,950.0,millions of euros
+Hermes,2024,,Other Hermès sectors,"1,909.0",millions of euros
+Hermes,2024,,Perfume and Beauty,535.0,millions of euros
+Hermes,2024,,Watches,577.0,millions of euros
+Hermes,2024,,Other products,337.0,millions of euros
+Hermes,2024,,Total,"15,170.0",millions of euros
+Hermes,2023,,Leather Goods and Saddlery,"5,547.0",millions of euros
+Hermes,2023,,Ready-to-wear and Accessories,"3,879.0",millions of euros
+Hermes,2023,,Silk and Textiles,932.0,millions of euros
+Hermes,2023,,Other Hermès sectors,"1,653.0",millions of euros
+Hermes,2023,,Perfume and Beauty,492.0,millions of euros
+Hermes,2023,,Watches,611.0,millions of euros
+Hermes,2023,,Other products,313.0,millions of euros
+Hermes,2023,,Total,"13,427.0",millions of euros
+Hermes,2022,,Leather Goods and Saddlery,"4,963.0",millions of euros
+Hermes,2022,,Ready-to-wear and Accessories,"3,152.0",millions of euros
+Hermes,2022,,Silk and Textiles,842.0,millions of euros
+Hermes,2022,,Other Hermès sectors,"1,371.0",millions of euros
+Hermes,2022,,Perfume and Beauty,448.0,millions of euros
+Hermes,2022,,Watches,519.0,millions of euros
+Hermes,2022,,Other products,306.0,millions of euros
+Hermes,2022,,Total,"11,602.0",millions of euros
+Hermes,2021,,Leather Goods and Saddlery,"4,091.0",millions of euros
+Hermes,2021,,Ready-to-wear and Accessories,"2,219.0",millions of euros
+Hermes,2021,,Silk and Textiles,669.0,millions of euros
+Hermes,2021,,Other Hermès sectors,"1,001.0",millions of euros
+Hermes,2021,,Perfume and Beauty,385.0,millions of euros
+Hermes,2021,,Watches,337.0,millions of euros
+Hermes,2021,,Other products,279.0,millions of euros
+Hermes,2021,,Total,"8,982.0",millions of euros
+Hermes,2024,France,,"1,447.0",millions of euros
+Hermes,2024,Europe (excl. France),,"2,147.0",millions of euros
+Hermes,2024,Total Europe,,"3,594.0",millions of euros
+Hermes,2024,Japan,,"1,437.0",millions of euros
+Hermes,2024,Asia-Pacific (excl. Japan),,"6,648.0",millions of euros
+Hermes,2024,Total Asia,,"8,085.0",millions of euros
+Hermes,2024,Americas,,"2,865.0",millions of euros
+Hermes,2024,Other,,627.0,millions of euros
+Hermes,2024,Total,,"15,170.0",millions of euros
+Hermes,2023,France,,"1,274.0",millions of euros
+Hermes,2023,Europe (excl. France),,"1,818.0",millions of euros
+Hermes,2023,Total Europe,,"3,093.0",millions of euros
+Hermes,2023,Japan,,"1,260.0",millions of euros
+Hermes,2023,Asia-Pacific (excl. Japan),,"6,273.0",millions of euros
+Hermes,2023,Total Asia,,"7,533.0",millions of euros
+Hermes,2023,Americas,,"2,502.0",millions of euros
+Hermes,2023,Other,,299.0,millions of euros
+Hermes,2023,Total,,"13,427.0",millions of euros
+Hermes,2022,France,,"1,064.0",millions of euros
+Hermes,2022,Europe (excl. France),,"1,536.0",millions of euros
+Hermes,2022,Total Europe,,"2,600.0",millions of euros
+Hermes,2022,Japan,,"1,101.0",millions of euros
+Hermes,2022,Asia-Pacific (excl. Japan),,"5,556.0",millions of euros
+Hermes,2022,Total Asia,,"6,657.0",millions of euros
+Hermes,2022,Americas,,"2,138.0",millions of euros
+Hermes,2022,Other,,207.0,millions of euros
+Hermes,2022,Total,,"11,602.0",millions of euros
+Hermes,2021,France,,838.0,millions of euros
+Hermes,2021,Europe (excl. France),,"1,303.0",millions of euros
+Hermes,2021,Total Europe,,"2,141.0",millions of euros
+Hermes,2021,Japan,,977.0,millions of euros
+Hermes,2021,Asia-Pacific (excl. Japan),,"4,251.0",millions of euros
+Hermes,2021,Total Asia,,"5,227.0",millions of euros
+Hermes,2021,Americas,,"1,458.0",millions of euros
+Hermes,2021,Other,,156.0,millions of euros
+Hermes,2021,Total,,"8,982.0",millions of euros
+Gucci,2020,,Other,595.3,millions of euros
+Gucci,2020,,Watches and jewelry,372.1,millions of euros
+Gucci,2020,,Ready-to-wear,"1,041.7",millions of euros
+Gucci,2020,,Leather goods,"4,092.6",millions of euros
+Gucci,2020,,Shoes,"1,339.4",millions of euros
+Gucci,2020,Rest of the world,,372.1,millions of euros
+Gucci,2020,Japan,,520.9,millions of euros
+Gucci,2020,North America,,"1,637.0",millions of euros
+Gucci,2020,Asia-Pacific (excluding Japan),,"3,274.0",millions of euros
+Gucci,2020,Western Europe,,"1,637.0",millions of euros
+Hermes,2020,,Leather Goods and Saddlery,"3,209.0",millions of euros
+Hermes,2020,,Ready-to-wear and Accessories,"1,409.0",millions of euros
+Hermes,2020,,Silk and Textiles,452.0,millions of euros
+Hermes,2020,,Other Hermès sectors,642.6,millions of euros
+Hermes,2020,,Perfume and Beauty,263.0,millions of euros
+Hermes,2020,,Watches,196.0,millions of euros
+Hermes,2020,,Other products,218.0,millions of euros
+Hermes,2020,,Total,"6,389.0",millions of euros
+Hermes,2020,France,,620.0,millions of euros
+Hermes,2020,Europe (excl. France),,953.0,millions of euros
+Hermes,2020,Total Europe,,"1,573.0",millions of euros
+Hermes,2020,Japan,,834.0,millions of euros
+Hermes,2020,Asia-Pacific (excl. Japan),,"2,915.0",millions of euros
+Hermes,2020,Total Asia,,"3,749.0",millions of euros
+Hermes,2020,Americas,,959.0,millions of euros
+Hermes,2020,Other,,108.0,millions of euros
+Hermes,2020,Total,,"6,389.0",millions of euros
